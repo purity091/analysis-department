@@ -571,7 +571,8 @@ export function Workspace() {
   }
 
   async function saveChanges(): Promise<boolean> {
-    const errors = issues.filter((issue) => issue.severity === "error");
+    const changedPaths = [...modifiedPaths, ...deletedPaths];
+    const errors = issues.filter((issue) => issue.severity === "error" && changedPaths.some((path) => issue.path === path || issue.path.startsWith(`${path}.`)));
     if (errors.length) { setShowProblems(true); setNotice(`أصلح ${errors.length} من أخطاء التحقق قبل الحفظ`); return false; }
     const changedFiles = Object.fromEntries(modifiedPaths.map((path) => [path, files[path]]));
     if (!modifiedPaths.length && !deletedPaths.length) { setNotice("لا توجد تغييرات"); window.setTimeout(() => setNotice(null), 2400); return true; }

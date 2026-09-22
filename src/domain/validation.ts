@@ -9,6 +9,8 @@ import {
 import type { SoftwareModel, ValidationIssue } from "./types";
 
 export function validateJsonFile(path: string, text: string): ValidationIssue[] {
+  if (!path.toLowerCase().endsWith(".json")) return [];
+
   let value: unknown;
   try {
     value = JSON.parse(text) as unknown;
