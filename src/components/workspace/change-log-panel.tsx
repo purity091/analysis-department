@@ -18,6 +18,7 @@ import {
   Check,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { APP_VERSION } from "@/lib/app-version";
 
 export interface RepositoryCommit {
   sha: string;
@@ -271,10 +272,13 @@ export function WorkspaceFooter({ issuesCount = 0, onOpenProblems }: WorkspaceFo
         <span className="footer-stack hidden md:inline-block text-slate-400 font-mono text-[9px]">
           TypeScript · UTF-8 · LF
         </span>
+
+        <span className="rounded border border-[#d8c9a5]/40 bg-[#b49a63]/15 px-2 py-0.5 text-[9px] font-semibold text-[#f1dfb1]" title="إصدار المنصة">
+          إصدار {APP_VERSION}
+        </span>
       </footer>
     </div>
   );
 }
 
 export const ChangeLogPanel = WorkspaceFooter;
-

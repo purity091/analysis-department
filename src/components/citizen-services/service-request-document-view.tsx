@@ -26,7 +26,6 @@ import {
   Folder,
   FileJson,
   CheckCircle2,
-  AlertCircle,
   Hash,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -34,6 +33,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/cn";
 import type { CitizenServiceDefinition, ServiceSpecification } from "@/domain/types";
 import { citizenServiceSpecifications } from "@/lib/citizen-service-specifications";
@@ -153,6 +153,7 @@ export function ServiceRequestDocumentView({
   });
   const [copiedCode, setCopiedCode] = useState(false);
   const [assistantStatus, setAssistantStatus] = useState<string | null>(null);
+  const [skillDialogOpen, setSkillDialogOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("overview");
 
   const filteredFaqs = useMemo(() => {
@@ -252,14 +253,14 @@ export function ServiceRequestDocumentView({
                 <ExternalLink size={10} className="text-emerald-600" />
               </Button>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
-                onClick={downloadSkill}
-                className="h-7 sm:h-7.5 gap-1.5 px-2 text-[11px] sm:text-xs font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                onClick={() => setSkillDialogOpen(true)}
+                className="h-7 sm:h-7.5 gap-1.5 border border-emerald-300/80 bg-emerald-50/70 px-2.5 text-[11px] sm:text-xs font-bold text-emerald-900 hover:border-emerald-400 hover:bg-emerald-100/80 hover:text-slate-950 shadow-2xs"
                 title="تنزيل سياق الطلب كملف Skill بصيغة Markdown"
               >
                 <Download size={12} />
-                <span className="hidden xs:inline">تحميل Skill</span>
+                <span>تحميل Skill</span>
               </Button>
               {assistantStatus && (
                 <span className="text-[10px] sm:text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 animate-in fade-in">
@@ -268,6 +269,45 @@ export function ServiceRequestDocumentView({
               )}
             </div>
           </div>
+
+          <Dialog open={skillDialogOpen} onOpenChange={setSkillDialogOpen}>
+            <DialogContent dir="rtl" className="max-w-[620px]">
+              <div className="flex items-start gap-3 border-b border-slate-200 pb-4">
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-emerald-50 text-emerald-700">
+                  <Sparkles size={20} />
+                </span>
+                <div>
+                  <DialogTitle className="text-lg font-bold text-slate-900">مهارة الذكاء الصنعي للطلب</DialogTitle>
+                  <DialogDescription className="mt-1 text-right text-xs leading-6 text-slate-600">
+                    ملف Markdown جاهز يعرّف أدوات الذكاء الصنعي بهذا الطلب ومعلوماته ومتطلباته.
+                  </DialogDescription>
+                </div>
+              </div>
+
+              <div className="mt-5 space-y-3 text-xs leading-6 text-slate-700">
+                <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+                  <p className="font-bold text-slate-900">ماذا تحتوي المهارة؟</p>
+                  <p className="mt-1">تعليمات للتحليل، بيانات الطلب الكاملة، المتطلبات والمراحل، ومحتوى الملف الأصلي حتى يتمكن المساعد من الإجابة ضمن سياق الخدمة.</p>
+                </div>
+                <div className="rounded-lg border border-slate-200 bg-white p-3">
+                  <p className="font-bold text-slate-900">كيفية استخدامها</p>
+                  <ol className="mt-1 list-decimal space-y-1 pr-5">
+                    <li>اضغط على «تحميل ملف المهارة» واحفظ ملف Markdown.</li>
+                    <li>أرفق الملف في أداة الذكاء الصنعي أو انسخ محتواه إلى المحادثة.</li>
+                    <li>اطلب من المساعد تحليل الطلب أو تلخيصه أو تحديد النواقص والأسئلة التالية.</li>
+                  </ol>
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-wrap justify-start gap-2">
+                <Button variant="outline" onClick={() => setSkillDialogOpen(false)}>إغلاق</Button>
+                <Button variant="primary" onClick={downloadSkill}>
+                  <Download size={14} />
+                  تحميل Skill
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
 
           {/* Service Title & Metadata Badges */}
           <div className="p-3 sm:p-4 space-y-1.5">

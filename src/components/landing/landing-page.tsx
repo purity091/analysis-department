@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { APP_VERSION } from "@/lib/app-version";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { PlatformTourModal } from "@/components/workspace/platform-tour-modal";
@@ -309,7 +310,7 @@ export function LandingPage() {
                       </Badge>
                     </div>
                     <p className="text-xs text-slate-600 leading-relaxed">
-                      إصدار رخصة بناء إنشائية ومعمارية معتمدة لإقامة مبنى سكني أو تجاري وفق كود البناء السعودي والمخطط التنظيمي المعتمد.
+                      إصدار رخصة بناء إنشائية ومعمارية معتمدة لإقامة مبنى سكني أو تجاري وفق ضابطة البناء العامة السورية والمخطط التنظيمي المعتمد لمدينة حماة.
                     </p>
                   </div>
 
@@ -319,7 +320,7 @@ export function LandingPage() {
                         <CheckCircle2 size={13} className="text-emerald-600" />
                         الإطار القانوني والتشريعي
                       </div>
-                      <p className="text-[10px] text-slate-500">نظام تطبيق كود البناء السعودي واللائحة التنفيذية لترخيص المباني.</p>
+                      <p className="text-[10px] text-slate-500">قانون البناء السوري وضابطة البناء العامة والقرارات التنظيمية المعتمدة لدى مجلس مدينة حماة.</p>
                     </div>
 
                     <div className="rounded-lg border border-slate-200 bg-white p-3 space-y-1">
@@ -566,6 +567,7 @@ export function LandingPage() {
             <span className="font-bold text-slate-900">Analysis Department OS</span>
             <span>·</span>
             <span>قسم فريق تحليل المشاريع</span>
+            <Badge variant="outline" className="border-[#b49a63]/40 bg-[#fbf7ee] px-2 py-0.5 text-[10px] font-semibold text-[#7a6231]">إصدار المنصة {APP_VERSION}</Badge>
           </div>
 
           <div className="flex items-center gap-4 text-slate-500">

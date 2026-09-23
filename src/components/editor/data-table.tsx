@@ -321,13 +321,17 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
   }
 
   function handleUpdateSpecification(newSpec: ServiceSpecification) {
-    const updatedMetadata = {
+    const updatedMetadata: TableMetadata = {
       ...metadataRef.current,
       specification: newSpec,
-      request: metadataRef.current.request
-        ? { ...(metadataRef.current.request as Record<string, unknown>), specification: newSpec }
-        : undefined,
     };
+
+    if (metadataRef.current.request && typeof metadataRef.current.request === "object") {
+      const updatedRequest = { ...(metadataRef.current.request as Record<string, unknown>) };
+      delete updatedRequest.specification;
+      updatedMetadata.request = updatedRequest;
+    }
+
     metadataRef.current = updatedMetadata;
     onChange(serializeTable(tableRef.current, updatedMetadata));
   }

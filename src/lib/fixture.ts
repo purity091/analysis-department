@@ -152,7 +152,6 @@ type CitizenService = ReturnType<typeof citizenServicesDocumentSchema.parse>["se
 
 function citizenServiceTableDocument(service: CitizenService) {
   const spec = citizenServiceSpecifications[service.id];
-  const serviceWithSpec = { ...service, specification: spec };
   const rows = [
     ["اسم الطلب", service.name],
     ["المعرف الفريد", service.id],
@@ -197,7 +196,7 @@ function citizenServiceTableDocument(service: CitizenService) {
     { id: "service-guide", title: "دليل طلبات المواطنين", description: "المراحل العامة ومتطلبات معالجة الطلبات", url: `${repository}/blob/main/docs/requirements/citizen-services.md`, category: "supporting" },
     { id: "repository", title: "مستودع فريق تحليل المشاريع", description: "الملفات والمراجع المشتركة للفريق", url: repository, category: "supporting" },
   ];
-  return `${JSON.stringify({ version: "1.0", serviceId: service.id, request: serviceWithSpec, specification: spec, userStory: spec?.userStory, permissionMatrix: spec?.permissionMatrix, actionPermissionMatrix: spec?.actionPermissionMatrix, links, columns: ["البيان", "التفاصيل"], rows, columnWidths: [220, 680], rowHeights: rows.map(() => 42) }, null, 2)}\n`;
+  return `${JSON.stringify({ version: "1.0", serviceId: service.id, request: service, specification: spec, userStory: spec?.userStory, permissionMatrix: spec?.permissionMatrix, actionPermissionMatrix: spec?.actionPermissionMatrix, links, columns: ["البيان", "التفاصيل"], rows, columnWidths: [220, 680], rowHeights: rows.map(() => 42) }, null, 2)}\n`;
 }
 
 function citizenServiceFilePath(service: CitizenService) {
